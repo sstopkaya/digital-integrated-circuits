@@ -1,0 +1,46 @@
+* SPICE3 file created from NandGateMagic.ext - technology: scmos
+
+.option scale=0.01u
+
+M1000 Y A VDD VDD pmos w=1200 l=200
++  ad=1.2e+06 pd=6000 as=1.44e+06 ps=7200
+M1001 VDD B Y VDD pmos w=1200 l=200
++  ad=0 pd=0 as=0 ps=0
+M1002 a_n3_n49# A GND GND nmos w=600 l=200
++  ad=480000 pd=2800 as=180000 ps=1800
+M1003 Y B a_n3_n49# GND nmos w=600 l=200
++  ad=180000 pd=1800 as=0 ps=0
+C0 Y gnd! 5.7fF
+C1 VDD gnd! 8.8fF
+
+VCC    VDD     GND     DC=2.5
+
+
+* The following two lines are for TRANSIENT analysis
+*
+*Vname +Node -Node Option T1  V1   T2  V2   T3   V3    T4  V4  T5   V5 
+*----- ----- ----- ------ --  --   --  --   ---- --    --  --  ---- -- 
+Vin     A     GND    PWL(   0   0    4N  0    4.1N 2.5   8N  2.5  8.1N  0  ) 
+Vin1     B     GND    PWL(   0   0    4N  0    4.1N 2.5   8N  2.5  8.1N  0  ) 
+
+
+*     TSTEP TSTOP
+*     ----- -----
+.TRAN 0.1N  12N
+
+
+* The following line is for DC analysis
+
+.DC VIN 0 2.6 0.1
+
+
+* TEMPERATURE and OPTIONS SETTING
+
+.OPTIONS TEMP=25 reltol = 1e-6 
+
+*MODELS
+
+.include tsmc_cmos025
+
+.END
+
